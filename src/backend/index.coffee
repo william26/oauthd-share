@@ -24,7 +24,6 @@ module.exports = (env) ->
 					request options, (err, response, body) ->
 						if err
 							return res.send 500, 'Error'
-						console.log response.statusCode
 						res.send response.statusCode, body
 
 			api_endpoint = {
@@ -39,6 +38,6 @@ module.exports = (env) ->
 					}
 				]
 			}
-
-			env.pluginsEngine.describeAPIEndpoint api_endpoint
+			if (env.pluginsEngine.describeAPIEndpoint)
+				env.pluginsEngine.describeAPIEndpoint api_endpoint
 	share

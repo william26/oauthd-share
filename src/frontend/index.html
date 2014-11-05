@@ -1,16 +1,70 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>{{ plugin_name }}</title>
-		<link rel="stylesheet" href="css/style.css">
-	</head>
-	<body>
-		<h1>{{ plugin_name }}</h1>
-		Thanks for installing {{ plugin_name }}
+    <head>
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+		
 
-		<script>
-			window.token = JSON.parse(window.parent.localStorage.__amplify__loginData).data.token
-		</script>
-		<script src="app/app.js"></script>
-	</body>
+    </head>
+    <body>
+        <h1 class="title">Share</h1>
+        <div class="content">
+            <p>This plugin unifies sharing features for several API providers like Twitter or Facebook.</p>
+
+			
+			
+
+            <h2>Usage with the API</h2>
+
+            Send the following request to post a message on Facebook or Twitter:
+
+<pre>POST http://your_oauthd/auth/:provider/share</pre>
+With the following JSON payload:
+<pre>{
+    "status": "Your message"
+}
+</pre>
+            You need to send the header 'oauthio' containing the following fields, urlencoded:
+            <ul>
+                <li><strong>k</strong>: your oauthd app public key</li>
+                <li><strong>access_token</strong>: your access token if the provider uses OAuth 2.0</li>
+                <li><strong>oauth_token</strong>: your oauth token if the provider uses OAuth 1.0</li>
+                <li><strong>oauth_token_secret</strong>: your oauth token secret if the provider uses OAuth 1.0</li>
+            </ul>
+
+            <h2>Usage with the JavaScript SDK</h2>
+<pre>OAuth.popup('provider')
+    .then(function (request_object) {
+        return request_object.share.status('Hello world');
+    })
+    .then(function (api_response) {
+        console.log('Success: ', api_response);
+    })
+    .fail(function (e) {
+        console.log('Error: ', e);
+    });
+</pre>
+		<h3>Currently available providers:</h3>
+			facebook, twitter
+
+        </div>
+
+
+
+        <script>
+        window.token = JSON.parse(window.parent.localStorage.__amplify__loginData).data.token
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+        <script>
+        	$(document).ready(function () {
+        		$('pre').each(function () {
+        			$elt = $(this);
+        			var highlighted = hljs.highlightAuto($elt.html());
+        			$elt.html(highlighted.value);
+        		})
+        	});
+        </script>
+        <script src="app/app.js"></script>
+    </body>
 </html>

@@ -1,7 +1,5 @@
 {
   "name": "share",
-  "description": "",
-  "version": "0.0.0",
-  "main": "index.js",
+  "description": "This plugin unifies sharing features for several API providers like Twitter or Facebook.",
   "interface_enabled": true
 }
