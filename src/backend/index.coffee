@@ -21,7 +21,6 @@ module.exports = (env) ->
 					return res.send 500, 'Error' if err
 					for k,v of api_req
 						options[k] = v if not options[k]?
-					console.log options
 					request options, (err, response, body) ->
 						if err
 							return res.send 500, 'Error'
@@ -29,7 +28,7 @@ module.exports = (env) ->
 
 			api_endpoint = {
 				endpoint: '/auth/:provider/status'
-				name: 'postStatus'
+				name: 'share.status'
 				method: 'POST'
 				params: [
 					{
