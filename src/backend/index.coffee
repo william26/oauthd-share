@@ -24,7 +24,8 @@ module.exports = (env) ->
 					request options, (err, response, body) ->
 						if err
 							return res.send 500, 'Error'
-						res.send 200, body
+						console.log response.statusCode
+						res.send response.statusCode, body
 
 			api_endpoint = {
 				endpoint: '/auth/:provider/status'
@@ -40,5 +41,4 @@ module.exports = (env) ->
 			}
 
 			env.pluginsEngine.describeAPIEndpoint api_endpoint
-
 	share
