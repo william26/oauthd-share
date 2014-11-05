@@ -8,7 +8,6 @@ module.exports = (env) ->
 
 
 		init: () ->
-
 			env.plugins.request.allowOriginAndMethods '/auth/:provider/status'
 			env.server.post '/auth/:provider/status', env.middlewares.request.credentialsNeeded, (req, res, next) ->
 				provider = req.params.provider
@@ -20,7 +19,12 @@ module.exports = (env) ->
 				env.plugins.request.apiRequest  api_req, provider, req.headers.oauthio, (err, options) ->
 					return res.send 500, 'Error' if err
 					for k,v of api_req
-						options[k] = v if not options[k]?
+						if typeof v != 'object'
+							options[k] = v
+						else
+							options[k] ?= {}
+							for kk,vv of v
+								options[k][kk] = vv
 					request options, (err, response, body) ->
 						if err
 							return res.send 500, 'Error'
@@ -38,6 +42,6 @@ module.exports = (env) ->
 					}
 				]
 			}
-			if (env.pluginsEngine.describeAPIEndpoint)
-				env.pluginsEngine.describeAPIEndpoint api_endpoint
+			env.pluginsEngine.describeAPIEndpoint api_endpoint
+		
 	share
